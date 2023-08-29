@@ -18,3 +18,11 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_SOURCE_DIR}/include
         ${DOCTEST_INCLUDE_DIR}
 )
+
+find_file(DOCTEST_CMAKE doctest.cmake)
+if(NOT DOCTEST_CMAKE)
+    message(FATAL_ERROR "Could not find doctest.cmake")
+else()
+    include(${DOCTEST_CMAKE})
+    doctest_discover_tests(${PROJECT_NAME}_tests)
+endif()
