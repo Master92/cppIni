@@ -22,3 +22,14 @@ auto Section::fqTitle() const -> std::string
 
     return m_parent->fqTitle() + "." + m_title;
 }
+
+auto Section::findEntry(std::string_view name) const -> const Entry*
+{
+    for (const auto& entry : m_entries) {
+        if (entry.key() == name) {
+            return &entry;
+        }
+    }
+
+    return nullptr;
+}

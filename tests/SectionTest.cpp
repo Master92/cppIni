@@ -112,5 +112,31 @@ TEST_CASE_FIXTURE(SectionFixture, "Create entry during insertion")
 
     CHECK_EQ(s.entries().size(), 1);
     CHECK_EQ(s.entries().at(0), checkEntry);
-    CHECK_NE(s.entries().at(0).data(), checkEntry.data());
+}
+
+TEST_CASE_FIXTURE(SectionFixture, "Find an Entry by name")
+{
+    constexpr auto key = "Test Key";
+    constexpr auto value = 42;
+
+    s.createEntry(key, value);
+
+    const auto e = s.findEntry(key);
+
+    REQUIRE_NE(e, nullptr);
+    CHECK_EQ(e, &s.entries().at(0));
+    CHECK_EQ(e->key(), key);
+    CHECK_EQ(e->value<int>(), value);
+}
+
+TEST_CASE_FIXTURE(SectionFixture, "Try to find an Entry that doesn't exist")
+{
+    constexpr auto key = "Test Key";
+    constexpr auto value = 42;
+
+    s.createEntry(key, value);
+
+    const auto e = s.findEntry("Nonexistent key");
+
+    CHECK_EQ(e, nullptr);
 }

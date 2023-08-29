@@ -24,6 +24,7 @@ public:
 
     constexpr auto entries() const -> const std::vector<Entry>& { return m_entries; } ///< List of Entry objects
 
+    auto findEntry(std::string_view name) const -> const Entry*; ///< Find an Entry object by name
 private:
     std::string m_title;
     std::vector<Entry> m_entries;
