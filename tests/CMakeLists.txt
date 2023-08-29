@@ -13,6 +13,7 @@ target_link_libraries(${PROJECT_NAME}_tests doctest::doctest cppIni)
 target_compile_definitions(${PROJECT_NAME}_tests
     PUBLIC
         DOCTEST_CONFIG_NO_MULTITHREADING
+        DOCTEST_CONFIG_USE_STD_HEADERS
 )
 
 target_include_directories(${PROJECT_NAME}
