@@ -2,6 +2,8 @@
 
 #include <string>
 
+class Section;
+
 /// \brief The Entry class
 /// \details An entry is a key-value pair. The key is a string and the value can be any type. It has a parent Section
 /// held by a (non-owning) pointer.
@@ -16,7 +18,7 @@ public:
     Entry(const Entry& other); ///< Copy constructor
 
     template<class T>
-    constexpr Entry(std::string_view key, T value); ///< Constructor with key, value and parent Section pointer (default nullptr)
+    constexpr Entry(std::string_view key, T value, Section* parent = nullptr); ///< Constructor with key, value and parent Section pointer (default nullptr)
 
     auto key() const -> std::string_view { return m_key; } ///< Key as std::string_view
 
@@ -39,12 +41,14 @@ private:
     std::string m_key {};
     const size_t m_size {0};
     void* m_data {nullptr};
+    Section* m_parent {nullptr};
 };
 
 template<class T>
-constexpr Entry::Entry(std::string_view key, T value)
+constexpr Entry::Entry(std::string_view key, T value, Section* parent)
     : m_key(key)
     , m_size(sizeof(std::remove_all_extents_t<T>))
+    , m_parent(parent)
 {
     m_data = std::malloc(m_size);
     *reinterpret_cast<std::remove_cvref_t<T>*>(m_data) = std::move(value);

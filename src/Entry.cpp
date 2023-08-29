@@ -1,4 +1,5 @@
 #include "Entry.h"
+#include "Section.h"
 
 #include <cstring>
 
@@ -22,6 +23,10 @@ auto Entry::operator==(const Entry& other) const -> bool
         return false;
     }
 
+    if (m_parent != other.m_parent) {
+        return false;
+    }
+
     if (m_data != other.m_data) {
         return std::memcmp(m_data, other.m_data, m_size) == 0;
     }
@@ -41,6 +46,7 @@ auto Entry::operator=(const Entry& other) -> Entry&
 
     m_key = other.m_key;
     memcpy(m_data, other.m_data, m_size);
+    m_parent = other.m_parent;
 
     return *this;
 }
@@ -59,6 +65,7 @@ auto Entry::operator=(Entry&& other) noexcept -> Entry&
     free(m_data);
     m_data = other.m_data;
     other.m_data = nullptr;
+    m_parent = other.m_parent;
 
     return *this;
 }
