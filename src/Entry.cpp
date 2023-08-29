@@ -69,3 +69,12 @@ auto Entry::operator=(Entry&& other) noexcept -> Entry&
 
     return *this;
 }
+
+auto Entry::fqKey() const -> std::string
+{
+    if (m_parent == nullptr) {
+        return m_key;
+    }
+
+    return m_parent->fqTitle() + "." + m_key;
+}

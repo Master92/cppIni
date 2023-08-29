@@ -67,6 +67,7 @@ TEST_CASE("Entry with subsection as parent")
 
     subSection.createEntry(key, 42);
     CHECK_EQ(subSection.entries().at(0).parent(), &subSection);
+    CHECK_EQ(subSection.entries().at(0).fqKey(), std::string(title) + "." + subSectionTitle + "." + key);
 }
 
 TEST_CASE("Entry assignment with different parents")

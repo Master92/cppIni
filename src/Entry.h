@@ -27,6 +27,7 @@ public:
     constexpr auto data() const -> const void* { return m_data; } ///< Pointer to the value
     constexpr auto parent() const -> const Section* { return m_parent; } ///< Parent Section
     constexpr auto size() const -> size_t { return m_size; } ///< Size in bytes
+    auto fqKey() const -> std::string; ///< Fully qualified key (e.g. "Section1.Section2.Key")
 
     auto setKey(std::string_view key) -> void { m_key = key; } ///< Set the key
     template<class T> auto setData(T value) -> void; ///< Set the value
