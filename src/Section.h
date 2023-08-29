@@ -14,7 +14,7 @@ public:
     auto title() const -> std::string_view { return m_title; } ///< Title as std::string_view
     auto fqTitle() const -> std::string; ///< Fully qualified title (e.g. "Section1.Section2")
 
-    auto parent() const -> const Section* { return m_parent; } ///< Parent Section
+    constexpr auto parent() const -> const Section* { return m_parent; } ///< Parent Section
     auto isSubsection() const -> bool { return m_parent != nullptr; } ///< Returns true if this Section is a subsection
 
     auto addEntry(Entry entry) -> void; ///< Add an Entry object to the section
