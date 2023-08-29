@@ -11,7 +11,7 @@ Section::Section(std::string_view title, Section* parent)
 /// \arg entry The Entry to add
 auto Section::addEntry(Entry entry) -> void
 {
-    m_entries.push_back(std::move(entry));
+    m_entries.insert(std::make_pair(entry.key(), std::move(entry)));
 }
 
 auto Section::fqTitle() const -> std::string
@@ -25,10 +25,10 @@ auto Section::fqTitle() const -> std::string
 
 auto Section::findEntry(std::string_view name) const -> const Entry*
 {
-    for (const auto& entry : m_entries) {
-        if (entry.key() == name) {
-            return &entry;
-        }
+    const auto entry = m_entries.find(std::string(name));
+
+    if (entry != m_entries.cend()) {
+        return &entry->second;
     }
 
     return nullptr;

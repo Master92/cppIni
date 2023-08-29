@@ -2,7 +2,7 @@
 
 #include "Entry.h"
 
-#include <vector>
+#include <unordered_map>
 
 /// \brief Represents a section in a configuration file
 /// \details A section is a collection of Entry objects with a title (e.g. [Section]) in a configuration file
@@ -22,12 +22,12 @@ public:
     template<class T>
     auto createEntry(std::string_view key, T value) -> void; ///< Create an Entry object in place and add it to the section
 
-    constexpr auto entries() const -> const std::vector<Entry>& { return m_entries; } ///< List of Entry objects
+    constexpr auto entries() const -> const auto& { return m_entries; } ///< List of Entry objects
 
     auto findEntry(std::string_view name) const -> const Entry*; ///< Find an Entry object by name
 private:
     std::string m_title;
-    std::vector<Entry> m_entries;
+    std::unordered_map<std::string, Entry> m_entries;
     Section *m_parent {nullptr};
 };
 
@@ -37,5 +37,5 @@ private:
 template<class T>
 auto Section::createEntry(std::string_view key, T value) -> void
 {
-    m_entries.emplace_back(key, std::move(value), this);
+    m_entries.emplace(key, Entry{key, value, this});
 }

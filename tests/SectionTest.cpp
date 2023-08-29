@@ -53,7 +53,7 @@ TEST_CASE("Entry with parent")
     CHECK_EQ(e.parent(), &s);
 
     CHECK_EQ(s.entries().size(), 1);
-    CHECK_EQ(s.entries().at(0).parent(), &s);
+    CHECK_EQ(s.entries().at(key).parent(), &s);
 }
 
 TEST_CASE("Entry with subsection as parent")
@@ -66,8 +66,8 @@ TEST_CASE("Entry with subsection as parent")
     Section subSection{subSectionTitle, &section};
 
     subSection.createEntry(key, 42);
-    CHECK_EQ(subSection.entries().at(0).parent(), &subSection);
-    CHECK_EQ(subSection.entries().at(0).fqKey(), std::string(title) + "." + subSectionTitle + "." + key);
+    CHECK_EQ(subSection.entries().at(key).parent(), &subSection);
+    CHECK_EQ(subSection.entries().at(key).fqKey(), std::string(title) + "." + subSectionTitle + "." + key);
 }
 
 TEST_CASE("Entry assignment with different parents")
@@ -94,11 +94,14 @@ TEST_CASE("Entry assignment with different parents")
 
 TEST_CASE_FIXTURE(SectionFixture, "Add existing entries")
 {
-    Entry e{"key", 42};
+    constexpr auto key = "Test Key";
+    constexpr auto value = 42;
+
+    Entry e{key, value};
     s.addEntry(e);
 
     CHECK_EQ(s.entries().size(), 1);
-    CHECK_EQ(s.entries().at(0), e);
+    CHECK_EQ(s.entries().at(key), e);
 }
 
 TEST_CASE_FIXTURE(SectionFixture, "Create entry during insertion")
@@ -111,7 +114,7 @@ TEST_CASE_FIXTURE(SectionFixture, "Create entry during insertion")
     const Entry checkEntry{key, value, &s};
 
     CHECK_EQ(s.entries().size(), 1);
-    CHECK_EQ(s.entries().at(0), checkEntry);
+    CHECK_EQ(s.entries().at(key), checkEntry);
 }
 
 TEST_CASE_FIXTURE(SectionFixture, "Find an Entry by name")
@@ -124,7 +127,7 @@ TEST_CASE_FIXTURE(SectionFixture, "Find an Entry by name")
     const auto e = s.findEntry(key);
 
     REQUIRE_NE(e, nullptr);
-    CHECK_EQ(e, &s.entries().at(0));
+    CHECK_EQ(e, &s.entries().at(key));
     CHECK_EQ(e->key(), key);
     CHECK_EQ(e->value<int>(), value);
 }
