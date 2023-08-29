@@ -57,6 +57,14 @@ inline Entry::Entry(std::string_view key, std::string value, Section* parent)
 }
 
 template<>
+inline Entry::Entry(std::string_view key, std::string_view value, Section* parent)
+    : m_key(key)
+    , m_data(std::string(value))
+    , m_parent(parent)
+{
+}
+
+template<>
 inline Entry::Entry(std::string_view key, const char* value, Section* parent)
     : m_key(key)
     , m_data(std::string(value))
