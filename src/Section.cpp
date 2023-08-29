@@ -1,5 +1,7 @@
 #include "Section.h"
 
+#include <algorithm>
+
 Section::Section(std::string_view title, Section* parent)
     : m_title(title)
     , m_parent(parent)
@@ -32,4 +34,16 @@ auto Section::findEntry(std::string_view name) const -> const Entry*
     }
 
     return nullptr;
+}
+
+auto Section::operator==(const Section& other) const -> bool
+{
+    if (m_title != other.m_title) {
+        return false;
+    }
+
+    return std::ranges::all_of(m_entries, [&other](const auto& entry) {
+        const auto otherEntry = other.findEntry(entry.first);
+        return otherEntry and entry.second.data() == otherEntry->data();
+    });
 }

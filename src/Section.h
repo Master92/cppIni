@@ -25,6 +25,9 @@ public:
     constexpr auto entries() const -> const auto& { return m_entries; } ///< List of Entry objects
 
     auto findEntry(std::string_view name) const -> const Entry*; ///< Find an Entry object by name
+
+    auto operator==(const Section& other) const -> bool; ///< Equality operator
+    auto operator!=(const Section& other) const -> bool = default; ///< Inequality operator
 private:
     std::string m_title;
     std::unordered_map<std::string, Entry> m_entries;

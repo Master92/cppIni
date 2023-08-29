@@ -143,3 +143,36 @@ TEST_CASE_FIXTURE(SectionFixture, "Try to find an Entry that doesn't exist")
 
     CHECK_EQ(e, nullptr);
 }
+
+TEST_CASE("Equality of two sections")
+{
+    constexpr auto title = "Test section";
+    constexpr auto key = "Test key";
+    constexpr auto value = 42;
+
+    Section s1{title};
+    Section s2{title};
+
+    s1.createEntry(key, value);
+    s2.createEntry(key, value);
+
+    CHECK_EQ(s1, s2);
+}
+
+TEST_CASE("Inequality of two sections")
+{
+    constexpr auto title = "Test section";
+    constexpr auto title2 = "Test section 2";
+    constexpr auto key = "Test key";
+    constexpr auto value = 42;
+
+    Section s1{title};
+    Section s2{title};
+    Section s3{title2};
+
+    s1.createEntry(key, value);
+    s3.createEntry(key, value);
+
+    CHECK_NE(s1, s2);
+    CHECK_NE(s1, s3);
+}
