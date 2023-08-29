@@ -30,8 +30,9 @@ public:
     auto setKey(std::string_view key) -> void { m_key = key; } ///< Set the key
     template<class T> auto setData(T value) -> void; ///< Set the value
 
-    constexpr auto operator==(const Entry& other) const -> bool = default; ///< Equality operator
-    constexpr auto operator!=(const Entry& other) const -> bool = default; ///< Inequality operator
+    // FIXME Why does GCC 11.4.0 not like constexpr string comparison?
+    auto operator==(const Entry& other) const -> bool = default; ///< Equality operator
+    auto operator!=(const Entry& other) const -> bool = default; ///< Inequality operator
 
     auto operator=(const Entry& other) -> Entry& = default; ///< Copy assignment operator
     auto operator=(Entry&& other) -> Entry& = default; ///< Move assignment operator
