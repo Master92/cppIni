@@ -3,7 +3,9 @@
 
 #include "../src/File.h"
 
-static const std::string fileName = std::string(WORKING_DIR) + "/res/test.ini";
+using namespace std::literals;
+
+static const std::string fileName = WORKING_DIR + "/res/test.ini"s;
 
 TEST_CASE("Failing construction of an empty File object")
 {
@@ -22,7 +24,7 @@ TEST_CASE("Successful parse of test.ini")
     REQUIRE_GT(f.sections().size(), 0);
     CHECK(f.findSection("Section1"));
     CHECK(f.findEntry("Section1.Entry1"));
-    CHECK_EQ(strcmp(f.findEntry("Section1.Entry1")->value<const char*>(), "Value1"), 0);
+    CHECK_EQ(f.findEntry("Section1.Entry1")->value<std::string_view>(), "Value1"sv);
     CHECK_EQ(f.findEntry("Section1.IntEntry")->value<int>(), 42);
 }
 
