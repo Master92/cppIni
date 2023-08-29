@@ -1,4 +1,6 @@
 #include <doctest/doctest.h>
+#include <sstream>
+#include <vector>
 
 #include "../src/Entry.h"
 
@@ -23,9 +25,29 @@ struct DataStructure
     explicit constexpr DataStructure(int val) : a(val) {}
 
     constexpr auto operator <=>(const DataStructure& other) const = default;
+
+    [[nodiscard]] auto toString() const -> std::string { return std::to_string(a) + " " + std::to_string(b) + " " + std::to_string(c); }
+
+    friend auto Entry::value() const -> DataStructure;
 };
 
-TEST_CASE_TEMPLATE("Entry construction with base type", T, char, int, float, DataStructure)
+template<>
+auto Entry::value<DataStructure>() const -> DataStructure
+{
+    std::vector<std::string> splitValues;
+    std::istringstream stream{m_data};
+    for (std::string line; std::getline(stream, line, ' ');) {
+        splitValues.push_back(line);
+    }
+
+    DataStructure result(std::stoi(splitValues[0]));
+    result.b = std::stof(splitValues[1]);
+    result.c = std::stod(splitValues[2]);
+
+    return result;
+};
+
+TEST_CASE_TEMPLATE("Entry construction with base type", T, char, int, float)
 {
     constexpr const char* key = "Entry";
     Entry e(key, T(42));
@@ -37,6 +59,28 @@ TEST_CASE_TEMPLATE("Entry construction with base type", T, char, int, float, Dat
     Entry e2(key, value);
     CHECK_EQ(e2.key(), key);
     CHECK_EQ(e2.value<T>(), value);
+}
+
+TEST_CASE_TEMPLATE("Entry with string as data", T, const char*, std::string)
+{
+    constexpr auto key = "Test";
+    const T value = "TestValue";
+
+    Entry e(key, value);
+
+    CHECK_EQ(e.key(), key);
+    CHECK_EQ(e.value<std::string>(), value);
+}
+
+TEST_CASE("Entry with DataStructure")
+{
+    constexpr auto key = "Test";
+    constexpr auto value = 4211;
+
+    Entry e(key, DataStructure(value).toString());
+
+    CHECK_EQ(e.key(), key);
+    CHECK_EQ(e.value<DataStructure>().a, value);
 }
 
 TEST_CASE("Entry equality")
@@ -64,7 +108,7 @@ TEST_CASE("Entry assignment")
     const Entry e2{key, value};
     const Entry e3{key, 1337};
     const Entry e4{"Bla", value};
-    const Entry e5{key, DataStructure(42)};
+    const Entry e5{key, DataStructure(42).toString()};
 
     e1 = e1;
     CHECK_EQ(e1, e2);
@@ -79,8 +123,7 @@ TEST_CASE("Entry assignment")
     CHECK_EQ(e1, e4);
 
     e1 = e5;
-    CHECK_NE(e1, e5);
-    CHECK_EQ(e1, e4);
+    CHECK_EQ(e1, e5);
 }
 
 TEST_CASE("Entry movement")
@@ -100,7 +143,7 @@ TEST_CASE("Entry movement")
     Entry e4{"Bla", value};
     const Entry e4Copy{e4};
 
-    Entry e5{key, DataStructure(42)};
+    Entry e5{key, DataStructure(42).toString()};
     const Entry e5Copy{e5};
 
     e1 = std::move(e2);
@@ -113,19 +156,7 @@ TEST_CASE("Entry movement")
     CHECK_EQ(e1, e4Copy);
 
     e1 = std::move(e5);
-    CHECK_NE(e1, e5Copy);
-    CHECK_EQ(e1, e4Copy);
-    CHECK_EQ(e5, e5Copy); // I know we moved from e5, but it should still be valid
-}
-
-TEST_CASE_TEMPLATE("Size of member types", T, char, int, double, DataStructure)
-{
-    constexpr auto key = "Test";
-    constexpr auto value = 4211;
-
-    Entry e{key, T(value)};
-
-    CHECK_EQ(e.size(), sizeof(T));
+    CHECK_EQ(e1, e5Copy);
 }
 
 TEST_CASE("Changing the key of an Element")
@@ -145,7 +176,7 @@ TEST_CASE("Changing the key of an Element")
     CHECK_EQ(e.key(), key2);
 }
 
-TEST_CASE_TEMPLATE("Changing the value of an Element", T, char, int, double, DataStructure)
+TEST_CASE_TEMPLATE("Changing the value of an Element", T, char, int, double)
 {
     constexpr auto key = "Test";
     constexpr auto value = 4211;
@@ -161,6 +192,24 @@ TEST_CASE_TEMPLATE("Changing the value of an Element", T, char, int, double, Dat
     e.setData(valueObject2);
 
     CHECK_EQ(e.value<T>(), valueObject2);
+}
+
+TEST_CASE("Changing the value of an Element with a std::string")
+{
+    constexpr auto key = "Test";
+    constexpr auto value = 4211;
+    const auto valueObject = std::to_string(value);
+    const auto valueObject2 = std::to_string(1337);
+
+    REQUIRE_NE(valueObject, valueObject2);
+
+    Entry e{key, valueObject};
+
+    CHECK_EQ(e.value<std::string>(), valueObject);
+
+    e.setData(valueObject2);
+
+    CHECK_EQ(e.value<std::string>(), valueObject2);
 }
 
 #if 0
