@@ -7,6 +7,8 @@ using namespace std::literals;
 
 static const std::string fileName = WORKING_DIR + "/res/test.ini"s;
 
+TEST_SUITE_BEGIN("File");
+
 TEST_CASE("Failing construction of an empty File object")
 {
     CHECK_THROWS(File{""});
@@ -36,3 +38,5 @@ TEST_CASE("Open file from static method")
     const auto f2 = File{fileName};
     CHECK_EQ(f, f2);
 }
+
+TEST_SUITE_END();

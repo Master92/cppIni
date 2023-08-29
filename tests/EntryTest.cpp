@@ -4,6 +4,8 @@
 
 #include "../src/Entry.h"
 
+TEST_SUITE_BEGIN("Entry");
+
 TEST_CASE("Entry construction")
 {
     Entry e;
@@ -253,3 +255,5 @@ TEST_CASE("Check for Entry memory leaks")
 
 #endif
 #endif
+
+TEST_SUITE_END();

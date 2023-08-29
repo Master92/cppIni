@@ -2,6 +2,8 @@
 
 #include "../src/Section.h"
 
+TEST_SUITE_BEGIN("Section");
+
 class SectionFixture
 {
 public:
@@ -176,3 +178,5 @@ TEST_CASE("Inequality of two sections")
     CHECK_NE(s1, s2);
     CHECK_NE(s1, s3);
 }
+
+TEST_SUITE_END();
