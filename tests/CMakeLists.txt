@@ -6,7 +6,7 @@ set(TEST_DRIVER_NAME TestDriver)
 
 find_package(doctest REQUIRED)
 
-add_executable(${PROJECT_NAME}_tests constructionTest.cpp)
+add_executable(${PROJECT_NAME}_tests ConstructionTest.cpp)
 target_link_libraries(${PROJECT_NAME}_tests doctest::doctest cppIni)
 target_compile_definitions(${PROJECT_NAME}_tests
     PUBLIC
