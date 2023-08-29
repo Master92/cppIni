@@ -16,6 +16,9 @@ auto Section::addEntry(Entry entry) -> void
     m_entries.insert(std::make_pair(entry.key(), std::move(entry)));
 }
 
+/// If the Section is a top-level Section, the title is returned.
+/// Otherwise, the title is prefixed with the parent's fully qualified title and a dot.
+/// \returns The fully qualified title of the Section.
 auto Section::fqTitle() const -> std::string
 {
     if (m_parent == nullptr) {
@@ -25,6 +28,8 @@ auto Section::fqTitle() const -> std::string
     return m_parent->fqTitle() + "." + m_title;
 }
 
+/// \param name The name of the Entry to find.
+/// \returns A pointer to the Entry if found, nullptr otherwise.
 auto Section::findEntry(std::string_view name) const -> const Entry*
 {
     const auto entry = m_entries.find(std::string(name));
@@ -36,6 +41,9 @@ auto Section::findEntry(std::string_view name) const -> const Entry*
     return nullptr;
 }
 
+/// \details Two Sections are equal if they have the same title and the same entries. Their parents are not compared.
+/// \param other The Section to compare to.
+/// \returns true if the Sections are equal, false otherwise.
 auto Section::operator==(const Section& other) const -> bool
 {
     if (m_title != other.m_title) {
