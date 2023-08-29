@@ -5,8 +5,9 @@ set(CMAKE_DEBUG_POSTFIX d)
 set(SOURCES
     cppIni.cpp
 
-    Section.cpp
     Entry.cpp
+    File.cpp
+    Section.cpp
 )
 
 set(API_HEADERS
@@ -15,8 +16,9 @@ set(API_HEADERS
 LIST(TRANSFORM API_HEADERS PREPEND ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/)
 
 set(HEADERS
-    Section.h
     Entry.h
+    File.h
+    Section.h
 )
 
 add_library(${PROJECT_NAME} ${SOURCES} ${API_HEADERS} ${HEADERS})

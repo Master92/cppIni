@@ -5,6 +5,7 @@ find_package(doctest REQUIRED)
 set(TEST_SOURCES
     ConstructionTest.cpp
     EntryTest.cpp
+    FileTest.cpp
     SectionTest.cpp
 )
 
@@ -14,6 +15,7 @@ target_compile_definitions(${PROJECT_NAME}_tests
     PUBLIC
         DOCTEST_CONFIG_NO_MULTITHREADING
         DOCTEST_CONFIG_USE_STD_HEADERS
+        WORKING_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 target_include_directories(${PROJECT_NAME}
