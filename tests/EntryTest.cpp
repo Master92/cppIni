@@ -30,7 +30,7 @@ struct DataStructure
 
     [[nodiscard]] auto toString() const -> std::string { return std::to_string(a) + " " + std::to_string(b) + " " + std::to_string(c); }
 
-    friend auto Entry::value() const -> DataStructure;
+    friend auto Entry::value<DataStructure>() const -> DataStructure;
 };
 
 template<>
