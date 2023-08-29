@@ -5,6 +5,7 @@ set(CMAKE_DEBUG_POSTFIX d)
 set(SOURCES
     cppIni.cpp
 
+    Section.cpp
     Entry.cpp
 )
 
@@ -14,6 +15,7 @@ set(API_HEADERS
 LIST(TRANSFORM API_HEADERS PREPEND ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/)
 
 set(HEADERS
+    Section.h
     Entry.h
 )
 

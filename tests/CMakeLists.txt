@@ -5,6 +5,7 @@ find_package(doctest REQUIRED)
 set(TEST_SOURCES
     ConstructionTest.cpp
     EntryTest.cpp
+    SectionTest.cpp
 )
 
 add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
