@@ -98,4 +98,5 @@ template<> inline auto Entry::value<float>() const              -> float        
 template<> inline auto Entry::value<double>() const             -> double             { return std::stod(m_data); }
 template<> inline auto Entry::value<long double>() const        -> long double        { return std::stold(m_data); }
 template<> inline auto Entry::value<std::string>() const        -> std::string        { return m_data; }
+template<> inline auto Entry::value<std::string_view>() const   -> std::string_view   { return m_data; }
 template<> inline auto Entry::value<const char*>() const        -> const char*        { return data().data(); }
