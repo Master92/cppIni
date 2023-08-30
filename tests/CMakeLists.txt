@@ -4,6 +4,9 @@ find_package(doctest REQUIRED)
 
 set(TEST_SOURCES
     ConstructionTest.cpp
+    EntryTest.cpp
+    FileTest.cpp
+    SectionTest.cpp
 )
 
 add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
@@ -11,6 +14,8 @@ target_link_libraries(${PROJECT_NAME}_tests doctest::doctest cppIni)
 target_compile_definitions(${PROJECT_NAME}_tests
     PUBLIC
         DOCTEST_CONFIG_NO_MULTITHREADING
+        DOCTEST_CONFIG_USE_STD_HEADERS
+        WORKING_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 target_include_directories(${PROJECT_NAME}
