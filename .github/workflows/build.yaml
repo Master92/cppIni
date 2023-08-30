@@ -82,4 +82,5 @@ jobs:
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} --parallel
 
       - name: Run test suite
-        run: build/tests/cppIni_tests
+        working-directory: build
+        run: ctest --build-config ${{ matrix.build_type }}
