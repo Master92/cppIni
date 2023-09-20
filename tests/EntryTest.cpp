@@ -20,7 +20,7 @@
 #include <sstream>
 #include <vector>
 
-#include "../src/Entry.h"
+#include <cppIni/Entry.h>
 
 TEST_SUITE_BEGIN("Entry");
 

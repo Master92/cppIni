@@ -18,14 +18,15 @@
 
 #pragma once
 
-#include "Entry.h"
+#include <cppIni/cppini_export.h>
+#include <cppIni/Entry.h>
 
 #include <unordered_map>
 
 /// \brief Represents a section in a configuration file
 /// \details A section is a collection of Entry objects with a title (e.g. [Section]) in a configuration file
 /// \note A section has a title and a list of Entry objects
-class Section {
+class CPPINI_EXPORT Section {
 public:
     explicit Section(std::string_view title, Section* parent = nullptr); ///< Constructor with title
 

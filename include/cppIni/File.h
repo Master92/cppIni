@@ -18,13 +18,15 @@
 
 #pragma once
 
-#include "Section.h"
+#include <cppIni/cppini_export.h>
+#include <cppIni/Section.h>
 
+#include <filesystem>
 #include <vector>
 
 /// \brief Represents a file on disk.
 /// A file is a collection of Sections.
-class File {
+class CPPINI_EXPORT File {
 public:
     explicit File(std::string_view filename); ///< Constructor.
     virtual ~File() = default; ///< Destructor.

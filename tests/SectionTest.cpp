@@ -1,5 +1,5 @@
 /*
- * cppIni - C++17/20/23 library for dealing with settings files
+ * cppIni - C++20/23 library for dealing with settings files
  * Copyright (C) 2023 Nils Hofmann <nils.friedchen@googlemail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #include <doctest/doctest.h>
 
-#include "../src/Section.h"
+#include <cppIni/Section.h>
 
 TEST_SUITE_BEGIN("Section");
 

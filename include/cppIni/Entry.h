@@ -18,6 +18,7 @@
 
 #pragma once
 
+#include <cppIni/cppini_export.h>
 #include <string>
 
 class Section;
@@ -28,7 +29,7 @@ class Section;
 /// \note The value is stored as a string.
 /// \note The value is copied into the Entry and not moved.
 /// \note The parent Section is a pointer to the Section object that contains this Entry.
-class Entry {
+class CPPINI_EXPORT Entry {
 public:
     constexpr Entry() = default; ///< Default constructor
     virtual ~Entry() = default; ///< Destructor
@@ -103,6 +104,12 @@ template<>
 inline auto Entry::setData(std::string value) -> void
 {
     m_data = std::move(value);
+}
+
+template<>
+inline auto Entry::setData(std::string_view value) -> void
+{
+    m_data = value;
 }
 
 template<> inline auto Entry::value<char>() const               -> char               { return std::stoi(m_data); }
