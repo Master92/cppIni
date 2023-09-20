@@ -51,38 +51,40 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install GCC
+      - name: 🔧 Install GCC
         uses: egor-tensin/setup-gcc@v1.3
         if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
         with:
           version: 13
 
-      - name: Install Clang
+      - name: 🔧 Install Clang
         uses: egor-tensin/setup-clang@v1.4
         if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'clang'
         with:
           version: 16
 
-      - name: Setup python
+      - name: 🔧 Setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: pip
-      - run: pip install -r requirements.txt
 
-      - name: Set reusable strings
+      - name: ☁️ Install required python packages
+        run: pip install -r requirements.txt
+
+      - name: 💬 Set reusable strings
         # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
         id: strings
         shell: bash
         run: echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-      - name: Create default Conan profile
+      - name: 🐸 Create default Conan profile
         run: conan profile detect
 
-      - name: Get dependencies
+      - name: ☁️ Get dependencies
         run: conan install ${{ github.workspace }} --build=missing --output-folder=build --settings compiler.cppstd=20
 
-      - name: Configure CMake
+      - name: 🛠️ Configure CMake
         run: > 
           cmake -B ${{ steps.strings.outputs.build-output-dir }} 
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} 
@@ -92,9 +94,9 @@ jobs:
           --toolchain=conan_toolchain.cmake
           -S ${{ github.workspace }}
 
-      - name: Build project
+      - name: 🔨 Build project
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} --parallel
 
-      - name: Run test suite
+      - name: 🏃 Run test suite
         working-directory: build
         run: ctest --build-config ${{ matrix.build_type }}
