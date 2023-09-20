@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.24)
 set(CMAKE_DEBUG_POSTFIX d)
 
 set(SOURCES
-    cppIni.cpp
-
     Entry.cpp
     File.cpp
     Section.cpp
@@ -12,16 +10,17 @@ set(SOURCES
 
 set(API_HEADERS
     cppIni.h
-)
-LIST(TRANSFORM API_HEADERS PREPEND ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/)
-
-set(HEADERS
     Entry.h
     File.h
     Section.h
 )
+LIST(TRANSFORM API_HEADERS PREPEND ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/)
 
-add_library(${PROJECT_NAME} ${SOURCES} ${API_HEADERS} ${HEADERS})
+set(PRIVATE_HEADERS
+
+)
+
+add_library(${PROJECT_NAME} ${SOURCES} ${API_HEADERS} ${PRIVATE_HEADERS})
 
 include(GenerateExportHeader)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)

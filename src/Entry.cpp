@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Entry.h"
-#include "Section.h"
+#include <cppIni/Entry.h>
+#include <cppIni/Section.h>
 
 auto Entry::fqKey() const -> std::string
 {

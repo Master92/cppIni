@@ -18,6 +18,6 @@
 
 #pragma once
 
-#include <cppIni/cppini_export.h>
-
-int CPPINI_EXPORT one();
+#include <cppIni/File.h>
+#include <cppIni/Section.h>
+#include <cppIni/Entry.h>

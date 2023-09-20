@@ -16,10 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <doctest/doctest.h>
-#include <cstring>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
-#include "../src/File.h"
+#include <doctest/doctest.h>
+
+#include <cppIni/File.h>
 
 using namespace std::literals;
 

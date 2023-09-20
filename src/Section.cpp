@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Section.h"
+#include <cppIni/Section.h>
 
 #include <algorithm>
 
