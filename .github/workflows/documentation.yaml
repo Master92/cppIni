@@ -1,0 +1,22 @@
+name: Doxygen documentation
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 🔨 Build documentation
+        uses: mattnotmitt/doxygen-action@v1.9.5
+
+      - name: 💾 Upload documentation artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Doxygen documentation
+          path: doc/html
