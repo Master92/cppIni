@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.24)
 set(CMAKE_DEBUG_POSTFIX d)
 
 set(SOURCES
-    cppIni.cpp
-
     Entry.cpp
     File.cpp
     Section.cpp

@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.24)
 find_package(doctest REQUIRED)
 
 set(TEST_SOURCES
-    ConstructionTest.cpp
     EntryTest.cpp
     FileTest.cpp
     SectionTest.cpp
