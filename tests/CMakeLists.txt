@@ -9,7 +9,8 @@ set(TEST_SOURCES
 )
 
 add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
-target_link_libraries(${PROJECT_NAME}_tests doctest::doctest cppIni)
+
+target_link_libraries(${PROJECT_NAME}_tests doctest::doctest ${PROJECT_NAME})
 target_compile_definitions(${PROJECT_NAME}_tests
     PUBLIC
         DOCTEST_CONFIG_NO_MULTITHREADING
