@@ -17,7 +17,7 @@ target_compile_definitions(${PROJECT_NAME}_tests
         WORKING_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${PROJECT_NAME}_tests
     PUBLIC
         ${PROJECT_SOURCE_DIR}/include
         ${DOCTEST_INCLUDE_DIR}
