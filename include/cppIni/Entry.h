@@ -40,11 +40,10 @@ public:
     constexpr Entry(std::string_view key, T value, Section* parent = nullptr); ///< Constructor with key, value and parent Section pointer (default nullptr)
 
     auto key() const -> std::string_view { return m_key; } ///< Key as std::string_view
-
+    auto fqKey() const -> std::string; ///< Fully qualified key (e.g. "Section1.Section2.Key")
     template<class T> auto value() const -> T; ///< Value as type T
     auto data() const -> std::string_view { return m_data; } ///< Value as std::string_view
     constexpr auto parent() const -> const Section* { return m_parent; } ///< Parent Section
-    auto fqKey() const -> std::string; ///< Fully qualified key (e.g. "Section1.Section2.Key")
 
     auto setKey(std::string_view key) -> void { m_key = key; } ///< Set the key
     template<class T> auto setData(T value) -> void; ///< Set the value
@@ -55,6 +54,10 @@ public:
 
     auto operator=(const Entry& other) -> Entry& = default; ///< Copy assignment operator
     auto operator=(Entry&& other) -> Entry& = default; ///< Move assignment operator
+
+    template<class T>
+    requires (not std::is_same_v<T, Entry>)
+    auto operator=(T value) -> Entry& { setData(value); return *this; } ///< Assignment operator for setting the value
 
 private:
     std::string m_key {};

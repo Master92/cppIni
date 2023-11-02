@@ -202,6 +202,7 @@ TEST_CASE_TEMPLATE("Changing the value of an Element", T, char, int, double)
     constexpr auto value = 4211;
     constexpr auto valueObject = T(value);
     constexpr auto valueObject2 = T(1337);
+    constexpr auto valueObject3 = T(4711);
 
     REQUIRE_NE(valueObject, valueObject2);
 
@@ -212,6 +213,10 @@ TEST_CASE_TEMPLATE("Changing the value of an Element", T, char, int, double)
     e.setData(valueObject2);
 
     CHECK_EQ(e.value<T>(), valueObject2);
+
+    e = valueObject3;
+
+    CHECK_EQ(e.value<T>(), valueObject3);
 }
 
 TEST_CASE("Changing the value of an Element with a std::string")
