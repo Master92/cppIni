@@ -23,6 +23,7 @@
 
 #include <filesystem>
 #include <vector>
+#include <format>
 
 /// \brief Represents a file on disk.
 /// A file is a collection of Sections.
@@ -37,6 +38,9 @@ public:
     auto findSection(std::string_view title) const -> const Section*; ///< Find a Section by title.
     auto findEntry(std::string_view name) const -> const Entry*; ///< Find an Entry by name.
 
+    template<class T>
+    auto get(std::string_view section, std::string_view name) const -> T; ///< Get an Entry by name and convert it to the specified type.
+
     constexpr auto sections() const -> const auto& { return m_sections; }
 
     auto operator==(const File& other) const -> bool; ///< Equality operator.
@@ -50,3 +54,13 @@ private:
 
     std::vector<Section*> m_sections{};
 };
+
+template<class T>
+auto File::get(std::string_view section, std::string_view name) const -> T
+{
+    if (const auto entry = findEntry(std::format("{}.{}", section, name))) {
+        return entry->value<T>();
+    }
+
+    return T();
+}
