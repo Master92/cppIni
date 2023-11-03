@@ -13,6 +13,7 @@ set(API_HEADERS
     Entry.h
     File.h
     Section.h
+    Variant.h
 )
 LIST(TRANSFORM API_HEADERS PREPEND ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/)
 
