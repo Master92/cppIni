@@ -44,9 +44,14 @@ TEST_CASE("Successful parse of test.ini")
 
     REQUIRE_GT(f.sections().size(), 0);
     CHECK(f.findSection("Section1"));
+    CHECK(f.findSection("Section1.Subsection1"));
     CHECK(f.findEntry("Section1.Entry1"));
     CHECK_EQ(f.findEntry("Section1.Entry1")->value<std::string_view>(), "Value1"sv);
     CHECK_EQ(f.findEntry("Section1.IntEntry")->value<int>(), 42);
+    CHECK_EQ(f.findEntry("Section1.IntEntry")->value<int>(), 42);
+    CHECK_EQ(f.findEntry("Section1.Subsection1.DoubleEntry")->value<double>(), 3.1415);
+    CHECK_EQ(f.findEntry("Section1.Subsection2.StringEntry")->value<std::string_view>(), "Hello World!"sv);
+    CHECK(f.findEntry("Section1.Subsection2.Subsubsection1.BoolEntry")->value<bool>());
 }
 
 TEST_CASE("Open file from static method")

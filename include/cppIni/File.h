@@ -29,7 +29,7 @@
 class CPPINI_EXPORT File {
 public:
     explicit File(std::string_view filename); ///< Constructor.
-    virtual ~File() = default; ///< Destructor.
+    virtual ~File(); ///< Destructor.
 
     static File open(std::string_view filename); ///< Open a file. Throws if the file cannot be opened.
     void open(); ///< Open the file. Throws if the file cannot be opened.
@@ -39,8 +39,8 @@ public:
 
     constexpr auto sections() const -> const auto& { return m_sections; }
 
-    auto operator==(const File& other) const -> bool = default; ///< Equality operator.
-    auto operator!=(const File& other) const -> bool = default; ///< Inequality operator.
+    auto operator==(const File& other) const -> bool; ///< Equality operator.
+    auto operator!=(const File& other) const -> bool { return !(*this == other); }; ///< Inequality operator.
 
 private:
     void parse(); ///< Parse the file.
@@ -48,5 +48,5 @@ private:
 private:
     std::string m_filename{};
 
-    std::vector<Section> m_sections{};
+    std::vector<Section*> m_sections{};
 };
