@@ -115,6 +115,7 @@ inline auto Entry::setData(std::string_view value) -> void
     m_data = value;
 }
 
+template<> inline auto Entry::value<bool>() const               -> bool               { return std::stoi(m_data); }
 template<> inline auto Entry::value<char>() const               -> char               { return std::stoi(m_data); }
 template<> inline auto Entry::value<short>() const              -> short              { return std::stoi(m_data); }
 template<> inline auto Entry::value<int>() const                -> int                { return std::stoi(m_data); }
