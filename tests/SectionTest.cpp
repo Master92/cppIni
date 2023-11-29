@@ -137,6 +137,30 @@ TEST_CASE_FIXTURE(SectionFixture, "Create entry during insertion")
     CHECK_EQ(s.entries().at(key), checkEntry);
 }
 
+TEST_CASE_FIXTURE(SectionFixture, "Set the value of an existing entry")
+{
+    constexpr auto key = "Test Key";
+    constexpr auto value = 42;
+    constexpr auto newValue = 1337;
+
+    s.createEntry(key, value);
+    s.setEntry({key, newValue});
+
+    CHECK_EQ(s.entries().size(), 1);
+    CHECK_EQ(s.entries().at(key).value<int>(), newValue);
+}
+
+TEST_CASE_FIXTURE(SectionFixture, "Set the value of a non-existing entry")
+{
+    constexpr auto key = "Test Key";
+    constexpr auto value = 42;
+
+    s.setEntry({key, value});
+
+    CHECK_EQ(s.entries().size(), 1);
+    CHECK_EQ(s.entries().at(key).value<int>(), value);
+}
+
 TEST_CASE_FIXTURE(SectionFixture, "Find an Entry by name")
 {
     constexpr auto key = "Test Key";
