@@ -1,4 +1,4 @@
-# cppIni - A C++20/23 library for reading and writing INI files
+# cppIni - A C++20 library for reading and writing INI files
 
 [![Build](https://github.com/Master92/cppIni/actions/workflows/build.yaml/badge.svg)](https://github.com/Master92/cppIni/actions/workflows/build.yaml)
 ![License](https://img.shields.io/github/license/Master92/cppIni)
@@ -14,7 +14,10 @@ It is tested with GCC 13, Clang 16 and MSVC 19.36. It should work with any compi
 ``` cpp  
 #include <cppIni/cppIni.hpp>
 
-Inifile ini("test.ini");
+File ini("test.ini");
+const auto intValue = init.get<int>("section", "key");
+const auto newValue = 42;
+ini.set("section", "key", newValue);
 ```
 
 ## License
