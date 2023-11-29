@@ -1,5 +1,5 @@
 /*
- * cppIni - C++20/23 library for dealing with settings files
+ * cppIni - A C++20 library for reading and writing INI files
  * Copyright (C) 2023 Nils Hofmann <nils.friedchen@googlemail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 /// \note A section has a title and a list of Entry objects
 class CPPINI_EXPORT Section {
 public:
-    explicit Section(std::string_view title, Section* parent = nullptr); ///< Constructor with title
+    explicit Section(std::string_view title, const Section* parent = nullptr); ///< Constructor with title
 
     auto title() const -> std::string_view { return m_title; } ///< Title as std::string_view
     auto fqTitle() const -> std::string; ///< Fully qualified title (e.g. "Section1.Section2")
@@ -37,6 +37,7 @@ public:
     auto isSubsection() const -> bool { return m_parent != nullptr; } ///< Returns true if this Section is a subsection
 
     auto addEntry(Entry entry) -> void; ///< Add an Entry object to the section
+    auto setEntry(Entry entry) -> void; ///< Set an Entry object in the section and create it if it does not exist
 
     template<class T>
     auto createEntry(std::string_view key, T value) -> void; ///< Create an Entry object in place and add it to the section
@@ -50,7 +51,7 @@ public:
 private:
     std::string m_title;
     std::unordered_map<std::string, Entry> m_entries;
-    Section *m_parent {nullptr};
+    const Section *m_parent {nullptr};
 };
 
 /// \details The parameters are forwarded to the Entry constructor and a pointer to this Section object is added as the parent

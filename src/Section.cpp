@@ -1,5 +1,5 @@
 /*
- * cppIni - C++20/23 library for dealing with settings files
+ * cppIni - A C++20 library for reading and writing INI files
  * Copyright (C) 2023 Nils Hofmann <nils.friedchen@googlemail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 #include <algorithm>
 
-Section::Section(std::string_view title, Section* parent)
+Section::Section(std::string_view title, const Section* parent)
     : m_title(title)
     , m_parent(parent)
 {
@@ -32,6 +32,13 @@ Section::Section(std::string_view title, Section* parent)
 auto Section::addEntry(Entry entry) -> void
 {
     m_entries.insert(std::make_pair(entry.key(), std::move(entry)));
+}
+
+/// \note The entry is moved into the vector
+/// \arg entry The Entry to add
+auto Section::setEntry(Entry entry) -> void
+{
+    m_entries.insert_or_assign(std::string(entry.key()), entry);
 }
 
 /// If the Section is a top-level Section, the title is returned.

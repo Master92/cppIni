@@ -1,5 +1,5 @@
 /*
- * cppIni - C++20/23 library for dealing with settings files
+ * cppIni - A C++20 library for reading and writing INI files
  * Copyright (C) 2023 Nils Hofmann <nils.friedchen@googlemail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,11 +40,10 @@ public:
     constexpr Entry(std::string_view key, T value, Section* parent = nullptr); ///< Constructor with key, value and parent Section pointer (default nullptr)
 
     auto key() const -> std::string_view { return m_key; } ///< Key as std::string_view
-
+    auto fqKey() const -> std::string; ///< Fully qualified key (e.g. "Section1.Section2.Key")
     template<class T> auto value() const -> T; ///< Value as type T
     auto data() const -> std::string_view { return m_data; } ///< Value as std::string_view
     constexpr auto parent() const -> const Section* { return m_parent; } ///< Parent Section
-    auto fqKey() const -> std::string; ///< Fully qualified key (e.g. "Section1.Section2.Key")
 
     auto setKey(std::string_view key) -> void { m_key = key; } ///< Set the key
     template<class T> auto setData(T value) -> void; ///< Set the value
@@ -55,6 +54,10 @@ public:
 
     auto operator=(const Entry& other) -> Entry& = default; ///< Copy assignment operator
     auto operator=(Entry&& other) -> Entry& = default; ///< Move assignment operator
+
+    template<class T>
+    requires (not std::is_same_v<T, Entry>)
+    auto operator=(T value) -> Entry& { setData(value); return *this; } ///< Assignment operator for setting the value
 
 private:
     std::string m_key {};
@@ -112,6 +115,7 @@ inline auto Entry::setData(std::string_view value) -> void
     m_data = value;
 }
 
+template<> inline auto Entry::value<bool>() const               -> bool               { return std::stoi(m_data); }
 template<> inline auto Entry::value<char>() const               -> char               { return std::stoi(m_data); }
 template<> inline auto Entry::value<short>() const              -> short              { return std::stoi(m_data); }
 template<> inline auto Entry::value<int>() const                -> int                { return std::stoi(m_data); }
