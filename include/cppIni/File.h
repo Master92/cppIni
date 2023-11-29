@@ -36,6 +36,9 @@ public:
     void open(); ///< Open the file. Throws if the file cannot be opened.
     void flush(); ///< Write the file to disk.
 
+    template<class T>
+    auto set(std::string_view section, std::string_view key, T value) -> void; ///< Set a value in a section.
+
     auto getSection(std::string_view fqTitle) -> Section*; ///< Get a Section by fully qualified title (e.g. "Section1.Section2")
     auto findSection(std::string_view title) const -> const Section*; ///< Find a Section by title.
     auto findEntry(std::string_view name) const -> const Entry*; ///< Find an Entry by name.
@@ -65,4 +68,23 @@ auto File::get(std::string_view section, std::string_view name) const -> T
     }
 
     return T();
+}
+
+/// \details The parameters are forwarded to the Section::setEntry() method. The Section is created if it does not exist.
+/// \arg section The title of the Section to set the value in.
+/// \arg key The key of the Entry to set.
+/// \arg value The value of the Entry to set.
+template<class T>
+auto File::set(std::string_view section, std::string_view key, T value) -> void
+{
+    if (auto s = std::ranges::find_if(m_sections,
+                                      [section](const auto& s) { return s->fqTitle() == section; });
+            s != m_sections.end()) {
+        (*s)->setEntry({key, value});
+    } else {
+        auto targetSection = getSection(section);
+        targetSection->setEntry({key, value});
+    }
+
+    flush();
 }

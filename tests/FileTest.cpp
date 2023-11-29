@@ -24,9 +24,22 @@
 
 using namespace std::literals;
 
-static const std::string fileName = WORKING_DIR + "/res/test.ini"s;
+static const std::string fileName = std::format("{}{}", WORKING_DIR, "/res/test.ini");
 
 TEST_SUITE_BEGIN("File");
+
+class FileFixture
+{
+public:
+    FileFixture() {
+        std::filesystem::copy_file(::fileName, fileName);
+    }
+    ~FileFixture() {
+        std::filesystem::remove(fileName);
+    }
+protected:
+    const std::string fileName = std::format("{}{}", WORKING_DIR, "/res/tmp.ini");
+};
 
 TEST_CASE("Failing construction of an empty File object")
 {
@@ -96,6 +109,36 @@ TEST_CASE("Equality operator")
     const auto f = File{fileName};
     const auto f2 = File{fileName};
     CHECK_EQ(f, f2);
+}
+
+TEST_CASE_FIXTURE(FileFixture, "Change a value with set")
+{
+    constexpr auto newValue = "NewValue"sv;
+
+    auto f = File{fileName};
+    f.set("Section1", "Entry1", "NewValue");
+    CHECK_EQ(f.get<std::string_view>("Section1", "Entry1"), newValue);
+
+    const auto f2 = File{fileName};
+    CHECK_EQ(f.get<std::string_view>("Section1", "Entry1"), newValue);
+}
+
+TEST_CASE("Write a file to disk")
+{
+    constexpr auto testFileName = "testWrite.ini";
+    {
+        auto f = File{testFileName};
+        f.set("General", "IntValue", 42);
+        f.set("General", "StringValue", "Hello World");
+        f.set("General.Subsection", "SubsectionValue", 3.14);
+        f.set("Specialized.Subsection.Subsubsection", "BoolValue", true);
+
+        const auto f2 = File{testFileName};
+        CHECK_EQ(f, f2);
+    }
+
+    // Cleanup
+    std::filesystem::remove(testFileName);
 }
 
 TEST_SUITE_END();
