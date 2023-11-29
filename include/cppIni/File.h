@@ -34,6 +34,7 @@ public:
 
     static File open(std::string_view filename); ///< Open a file. Throws if the file cannot be opened.
     void open(); ///< Open the file. Throws if the file cannot be opened.
+    void flush(); ///< Write the file to disk.
 
     auto findSection(std::string_view title) const -> const Section*; ///< Find a Section by title.
     auto findEntry(std::string_view name) const -> const Entry*; ///< Find an Entry by name.

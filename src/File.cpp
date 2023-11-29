@@ -54,6 +54,21 @@ void File::open()
     parse();
 }
 
+void File::flush()
+{
+    std::ofstream file{m_filename};
+
+    for (const auto& section: m_sections) {
+        file << std::format("[{}]\n", section->fqTitle());
+
+        for (const auto& [_, entry]: section->entries()) {
+            file << std::format("{}={}\n", entry.key(), entry.data());
+        }
+
+        file << "\n";
+    }
+}
+
 /// \param title The title of the Section to find.
 /// \returns A pointer to the Section if found, nullptr otherwise.
 auto File::findSection(std::string_view title) const -> const Section*
