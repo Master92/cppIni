@@ -25,6 +25,7 @@
 /// A variant type that can hold any type
 class CPPINI_EXPORT Variant {
 public:
+    constexpr Variant() = default; //< Default constructor
     template<class T> explicit Variant(T value) : m_value{value} {} //< Construct a variant from a value
     Variant(const Variant& other) = default; //< Copy constructor
 
