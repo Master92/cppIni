@@ -36,6 +36,7 @@ public:
     void open(); ///< Open the file. Throws if the file cannot be opened.
     void flush(); ///< Write the file to disk.
 
+    auto getSection(std::string_view fqTitle) -> Section*; ///< Get a Section by fully qualified title (e.g. "Section1.Section2")
     auto findSection(std::string_view title) const -> const Section*; ///< Find a Section by title.
     auto findEntry(std::string_view name) const -> const Entry*; ///< Find an Entry by name.
 

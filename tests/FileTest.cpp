@@ -63,4 +63,32 @@ TEST_CASE("Open file from static method")
     CHECK_EQ(f, f2);
 }
 
+TEST_CASE("Create a section")
+{
+    auto f = File{fileName};
+    f.getSection("Section2");
+    CHECK(f.findSection("Section2"));
+}
+
+TEST_CASE("Create a subsection of an existing and a non-existing Section")
+{
+    auto f = File{fileName};
+    f.getSection("Section2.Subsection1");
+    CHECK(f.findSection("Section2.Subsection1"));
+    CHECK(f.findSection("Section2"));
+
+    f.getSection("Section2.Subsection1.Subsubsection1");
+    CHECK(f.findSection("Section2.Subsection1.Subsubsection1"));
+}
+
+TEST_CASE("Call findSection to get an existing Section")
+{
+    const auto f = File{fileName};
+    const auto section = f.findSection("Section1");
+    REQUIRE(section);
+    CHECK_EQ(section->title(), "Section1");
+    REQUIRE(section->findEntry("Entry1"));
+    CHECK_EQ(section->findEntry("Entry1")->value<std::string_view>(), "Value1"sv);
+}
+
 TEST_SUITE_END();

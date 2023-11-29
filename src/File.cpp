@@ -69,6 +69,25 @@ void File::flush()
     }
 }
 
+/// \details Scans the vector of Sections for the parent and creates the tree including the new Section if it does not exist.
+/// \param fqTitle The fully qualified title of the Section to create.
+/// \returns A pointer to the created Section.
+auto File::getSection(std::string_view fqTitle) -> Section*
+{
+    if (const auto section = findSection(fqTitle); section) {
+        return const_cast<Section*>(section);
+    }
+
+    if (fqTitle.find('.') == std::string_view::npos) {
+        m_sections.emplace_back(new Section(fqTitle));
+        return m_sections.back();
+    } else {
+        const auto parent = getSection(fqTitle.substr(0, fqTitle.find_last_of('.')));
+        m_sections.emplace_back(new Section(fqTitle.substr(fqTitle.find_last_of('.') + 1), parent));
+        return m_sections.back();
+    }
+}
+
 /// \param title The title of the Section to find.
 /// \returns A pointer to the Section if found, nullptr otherwise.
 auto File::findSection(std::string_view title) const -> const Section*
