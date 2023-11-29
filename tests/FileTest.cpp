@@ -91,4 +91,11 @@ TEST_CASE("Call findSection to get an existing Section")
     CHECK_EQ(section->findEntry("Entry1")->value<std::string_view>(), "Value1"sv);
 }
 
+TEST_CASE("Equality operator")
+{
+    const auto f = File{fileName};
+    const auto f2 = File{fileName};
+    CHECK_EQ(f, f2);
+}
+
 TEST_SUITE_END();
