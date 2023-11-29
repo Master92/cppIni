@@ -20,7 +20,7 @@
 
 #include <algorithm>
 
-Section::Section(std::string_view title, Section* parent)
+Section::Section(std::string_view title, const Section* parent)
     : m_title(title)
     , m_parent(parent)
 {

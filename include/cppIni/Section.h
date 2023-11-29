@@ -28,7 +28,7 @@
 /// \note A section has a title and a list of Entry objects
 class CPPINI_EXPORT Section {
 public:
-    explicit Section(std::string_view title, Section* parent = nullptr); ///< Constructor with title
+    explicit Section(std::string_view title, const Section* parent = nullptr); ///< Constructor with title
 
     auto title() const -> std::string_view { return m_title; } ///< Title as std::string_view
     auto fqTitle() const -> std::string; ///< Fully qualified title (e.g. "Section1.Section2")
@@ -50,7 +50,7 @@ public:
 private:
     std::string m_title;
     std::unordered_map<std::string, Entry> m_entries;
-    Section *m_parent {nullptr};
+    const Section *m_parent {nullptr};
 };
 
 /// \details The parameters are forwarded to the Entry constructor and a pointer to this Section object is added as the parent
