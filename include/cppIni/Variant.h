@@ -64,9 +64,19 @@ public:
         return get<T>();
     }
 
-    auto operator==(const Variant& other) const -> bool = delete; ///< Equality operator (deleted)
-    auto operator!=(const Variant& other) const -> bool = delete; ///< Inequality operator (deleted)
+    template<class T> auto operator==(const Variant& other) const -> bool; ///< Templated equality operator
+    template<class T> auto operator!=(const Variant& other) const -> bool { return !((*this).operator==<T>(other)); } ///< Templated inequality operator
 
 private:
     std::any m_value;
 };
+
+template<class T>
+auto Variant::operator==(const Variant& other) const -> bool
+{
+    if (not is(other.m_value.type())) {
+        return false;
+    }
+
+    return get<T>() == other.get<T>();
+}

@@ -124,4 +124,26 @@ TEST_CASE("Type check with type_info struct")
     CHECK(not variant.is(typeid(const char*)));
 }
 
+TEST_CASE("Equality of Variants")
+{
+    const auto myValue = MyTestClass{42, "Test"};
+    const auto variant = Variant{myValue};
+
+    CHECK_EQ(variant.get<MyTestClass>(), myValue);
+
+    const auto copy(variant);
+    CHECK_EQ(variant.get<MyTestClass>(), copy.get<MyTestClass>());
+
+    CHECK((variant.operator==<MyTestClass>(copy)));
+
+    CHECK(variant.operator==<MyTestClass>(copy));
+    CHECK(copy.operator==<MyTestClass>(variant));
+
+    const auto myOtherValue = MyTestClass{43, "Test"};
+    const auto otherVariant = Variant{myOtherValue};
+
+    CHECK((variant.operator!=<MyTestClass>(otherVariant)));
+    CHECK((otherVariant.operator!=<MyTestClass>(variant)));
+}
+
 TEST_SUITE_END();
