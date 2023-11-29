@@ -1,5 +1,6 @@
 # cppIni - A C++20 library for reading and writing INI files
 
+[![Release](https://img.shields.io/github/v/tag/Master92/cppIni?label=release)](https://github.com/Master92/cppIni/releases)
 [![Build](https://github.com/Master92/cppIni/actions/workflows/build.yaml/badge.svg)](https://github.com/Master92/cppIni/actions/workflows/build.yaml)
 ![License](https://img.shields.io/github/license/Master92/cppIni)
 ![GitHub stars](https://img.shields.io/github/stars/Master92/cppIni?label=%E2%AD%90%20Stars)
