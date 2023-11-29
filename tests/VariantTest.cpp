@@ -108,4 +108,20 @@ TEST_CASE("Access by conversion operator")
     CHECK_EQ(primitiveVariant.get<int>(), primitiveCopy);
 }
 
+TEST_CASE("Type check with type_info struct")
+{
+    const auto myValue = MyTestClass{42, "Test"};
+    const auto variant = Variant{myValue};
+
+    CHECK_EQ(variant.get<MyTestClass>(), myValue);
+
+    CHECK(variant.is(typeid(MyTestClass)));
+    CHECK(not variant.is(typeid(int)));
+    CHECK(not variant.is(typeid(double)));
+    CHECK(not variant.is(typeid(bool)));
+    CHECK(not variant.is(typeid(std::string)));
+    CHECK(not variant.is(typeid(std::string_view)));
+    CHECK(not variant.is(typeid(const char*)));
+}
+
 TEST_SUITE_END();

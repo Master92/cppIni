@@ -47,6 +47,14 @@ public:
         return m_value.has_value() and m_value.type() == typeid(T);
     }
 
+    /// Check if the variant holds a value of the specified type
+    /// \return true if the variant holds a value of the specified type, false otherwise
+    /// \param type The type_info to check for
+    auto is(const std::type_info& type) const -> bool
+    {
+        return m_value.has_value() and m_value.type() == type;
+    }
+
     /// Convert the variant to the specified type
     /// \return The value of the variant converted to the specified type
     /// \throws std::bad_any_cast if the variant does not hold the requested type
