@@ -1,5 +1,5 @@
 /*
- * cppIni - C++20/23 library for dealing with settings files
+ * cppIni - A C++20 library for reading and writing INI files
  * Copyright (C) 2023 Nils Hofmann <nils.friedchen@googlemail.com>
  *
  * This program is free software: you can redistribute it and/or modify
