@@ -34,6 +34,13 @@ auto Section::addEntry(Entry entry) -> void
     m_entries.insert(std::make_pair(entry.key(), std::move(entry)));
 }
 
+/// \note The entry is moved into the vector
+/// \arg entry The Entry to add
+auto Section::setEntry(Entry entry) -> void
+{
+    m_entries.insert_or_assign(std::string(entry.key()), entry);
+}
+
 /// If the Section is a top-level Section, the title is returned.
 /// Otherwise, the title is prefixed with the parent's fully qualified title and a dot.
 /// \returns The fully qualified title of the Section.

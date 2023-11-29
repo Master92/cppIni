@@ -37,6 +37,7 @@ public:
     auto isSubsection() const -> bool { return m_parent != nullptr; } ///< Returns true if this Section is a subsection
 
     auto addEntry(Entry entry) -> void; ///< Add an Entry object to the section
+    auto setEntry(Entry entry) -> void; ///< Set an Entry object in the section and create it if it does not exist
 
     template<class T>
     auto createEntry(std::string_view key, T value) -> void; ///< Create an Entry object in place and add it to the section
