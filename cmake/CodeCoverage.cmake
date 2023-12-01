@@ -8,8 +8,6 @@ if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
             -O0             # no optimization
             -g              # generate debug info
             --coverage      # sets all required flags
-            -fprofile-arcs  # generate profile information for arcs
-            -ftest-coverage # generate profile information for test coverage
     )
     target_link_options(coverage_config INTERFACE --coverage)
 endif()
