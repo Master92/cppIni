@@ -101,3 +101,10 @@ jobs:
       - name: 🏃 Run test suite
         working-directory: build
         run: ctest --build-config ${{ matrix.build_type }}
+
+      - name: ☂️ Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
