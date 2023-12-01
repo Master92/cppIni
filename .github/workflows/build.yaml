@@ -90,7 +90,8 @@ jobs:
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} 
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-          -DBUILD_TESTING=ON 
+          -DBUILD_TESTING=ON
+          -DCODE_COVERAGE=ON
           --toolchain=conan_toolchain.cmake
           -S ${{ github.workspace }}
 
