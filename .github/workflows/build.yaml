@@ -102,6 +102,10 @@ jobs:
         working-directory: build
         run: ctest --build-config ${{ matrix.build_type }}
 
+      - name: 📊 Generate coverage reports
+        if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
+        run: gcovr --cobertura --exclude-unreachable-branches --exclude-throw-branches --root ${{ github.workspace }} --output coverage.xml
+
       - name: ☂️ Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
