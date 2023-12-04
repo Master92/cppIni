@@ -91,7 +91,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DBUILD_TESTING=ON
-          -DCODE_COVERAGE=ON
+          -DCODE_COVERAGE=OFF
           --toolchain=conan_toolchain.cmake
           -S ${{ github.workspace }}
 
@@ -101,14 +101,3 @@ jobs:
       - name: 🏃 Run test suite
         working-directory: build
         run: ctest --build-config ${{ matrix.build_type }}
-
-      - name: 📊 Generate coverage reports
-        if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
-        uses: threeal/gcovr-action@v1.0.0
-
-      - name: ☂️ Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        if: matrix.os == 'ubuntu-latest' && matrix.c_compiler == 'gcc'
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
