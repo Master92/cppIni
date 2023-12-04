@@ -1,0 +1,66 @@
+name: Coverage
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 🔧 Install GCC
+        uses: egor-tensin/setup-gcc@v1.3
+        with:
+          version: 13
+
+      - name: 🔧 Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: pip
+
+      - name: ☁️ Install required packages
+        run: |
+          sudo apt-get install -y lcov
+          pip install -r requirements.txt
+
+      - name: 🐸 Create default Conan profile
+        run: conan profile detect
+
+      - name: ☁️ Get dependencies
+        run: conan install ${{ github.workspace }} --build=missing --output-folder=build --settings compiler.cppstd=20
+
+      - name: 🛠️ Configure CMake
+        run: >
+          cmake -B build 
+          -DCMAKE_BUILD_TYPE=Release 
+          -DBUILD_TESTING=ON
+          -DCODE_COVERAGE=ON
+          --toolchain=conan_toolchain.cmake
+          -S ${{ github.workspace }}
+
+      - name: 🔨 Build project
+        run: cmake --build build --config Release --parallel
+
+      - name: 🏃 Run test suite
+        working-directory: build
+        run: ctest --build-config Release
+
+      - name: 📊 Generate coverage reports with lcov
+        run: |
+          lcov --directory . --capture --output-file coverage.info --gcov-tool gcov-13
+          lcov --remove coverage.info '/usr/*' --remove coverage.info '**/.conan*' --remove coverage.info '**/test*' --output-file coverage.info
+          lcov --list coverage.info
+
+      - name: ☂️ Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
