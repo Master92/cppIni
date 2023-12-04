@@ -21,6 +21,7 @@ set(PRIVATE_HEADERS
 )
 
 add_library(${PROJECT_NAME} ${SOURCES} ${API_HEADERS} ${PRIVATE_HEADERS})
+target_link_libraries(${PROJECT_NAME} PUBLIC coverage_config)
 
 include(GenerateExportHeader)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
