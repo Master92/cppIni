@@ -59,7 +59,7 @@ jobs:
       - name: 📊 Generate coverage reports with lcov
         run: |
           lcov --directory . --capture --output-file coverage.info --gcov-tool gcov-13
-          lcov --remove coverage.info '/usr/*' --remove coverage.info '**/.conan*' --remove coverage.info '**/test*' --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' --remove coverage.info '**/.conan*' --remove coverage.info '**/test*' --remove coverage.info '**/test_package*' --output-file coverage.info
           lcov --list coverage.info
 
       - name: ☂️ Upload coverage reports to Codecov
