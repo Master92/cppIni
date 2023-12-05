@@ -96,7 +96,7 @@ jobs:
         run: cmake --preset ${{ steps.strings.outputs.preset-name }}
 
       - name: 🔨 Build project
-        run: cmake --build --preset ${{ steps.strings.outputs.preset-name }} --parallel
+        run: cmake --build --preset conan-release --parallel
 
       - name: 🏃 Run test suite
-        run: ctest --preset ${{ steps.strings.outputs.preset-name }}
+        run: ctest --preset conan-release
