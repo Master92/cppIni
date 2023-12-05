@@ -76,6 +76,18 @@ TEST_CASE("Open file from static method")
     CHECK_EQ(f, f2);
 }
 
+TEST_CASE("Get the value of an entry")
+{
+    const auto f = File{fileName};
+    CHECK_EQ(f.get<std::string_view>("Section1", "Entry1"), "Value1"sv);
+}
+
+TEST_CASE("Get the value of an entry that doesn't exist")
+{
+    const auto f = File{fileName};
+    CHECK_EQ(f.get<int>("Section1", "Entry2"), int());
+}
+
 TEST_CASE("Create a section")
 {
     auto f = File{fileName};
@@ -102,6 +114,28 @@ TEST_CASE("Call findSection to get an existing Section")
     CHECK_EQ(section->title(), "Section1");
     REQUIRE(section->findEntry("Entry1"));
     CHECK_EQ(section->findEntry("Entry1")->value<std::string_view>(), "Value1"sv);
+}
+
+TEST_CASE("Call findSection to get a non-existing Section")
+{
+    const auto f = File{fileName};
+    const auto section = f.findSection("Section2");
+    CHECK_EQ(section, nullptr);
+}
+
+TEST_CASE("Call findEntry to get an existing Entry")
+{
+    const auto f = File{fileName};
+    const auto entry = f.findEntry("Section1.Entry1");
+    REQUIRE(entry);
+    CHECK_EQ(entry->value<std::string_view>(), "Value1"sv);
+}
+
+TEST_CASE("Call findEntry with a non-existing section")
+{
+    const auto f = File{fileName};
+    const auto entry = f.findEntry("Section2.Entry1");
+    CHECK_EQ(entry, nullptr);
 }
 
 TEST_CASE("Equality operator")
