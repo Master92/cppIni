@@ -3,4 +3,5 @@
 /doc
 /include/cppIni/cppini_export.h
 test_package/build
+python
 CMakeUserPresets.json
