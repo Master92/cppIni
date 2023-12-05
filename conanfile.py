@@ -36,12 +36,14 @@ class cppiniRecipe(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
-        "testing": [True, False]
+        "testing": [True, False],
+        "coverage": [True, False]
     }
     default_options = {
         "shared": False,
         "fPIC": True,
-        "testing": True
+        "testing": True,
+        "coverage": False
     }
 
     # Sources are located in the same place as this recipe, copy them to the recipe
@@ -73,6 +75,7 @@ class cppiniRecipe(ConanFile):
         tc = CMakeToolchain(self)
         tc.variables["BUILD_SHARED_LIBS"] = self.options.shared
         tc.variables["BUILD_TESTING"] = self.options.testing
+        tc.variables["CODE_COVERAGE"] = self.options.coverage
         tc.generate()
 
     def build(self):
