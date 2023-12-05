@@ -76,6 +76,18 @@ TEST_CASE("Open file from static method")
     CHECK_EQ(f, f2);
 }
 
+TEST_CASE("Get the value of an entry")
+{
+    const auto f = File{fileName};
+    CHECK_EQ(f.get<std::string_view>("Section1", "Entry1"), "Value1"sv);
+}
+
+TEST_CASE("Get the value of an entry that doesn't exist")
+{
+    const auto f = File{fileName};
+    CHECK_EQ(f.get<int>("Section1", "Entry2"), int());
+}
+
 TEST_CASE("Create a section")
 {
     auto f = File{fileName};
