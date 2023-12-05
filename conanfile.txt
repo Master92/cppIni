@@ -1,4 +1,4 @@
-[requires]
+[test_requires]
 doctest/[>=2.4]
 
 [generators]
