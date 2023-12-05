@@ -84,21 +84,13 @@ jobs:
         run: conan profile detect
 
       - name: ☁️ Get dependencies
-        run: conan install ${{ github.workspace }} --build=missing --output-folder=build --settings compiler.cppstd=20
+        run: conan install ${{ github.workspace }} --build=missing -s compiler.cppstd=20 -o testing=True
 
       - name: 🛠️ Configure CMake
-        run: > 
-          cmake -B ${{ steps.strings.outputs.build-output-dir }} 
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} 
-          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-          -DBUILD_TESTING=ON
-          -DCODE_COVERAGE=OFF
-          --toolchain=conan_toolchain.cmake
-          -S ${{ github.workspace }}
+        run: cmake --preset conan-release
 
       - name: 🔨 Build project
-        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} --parallel
+        run: cmake --build --preset conan-release --parallel
 
       - name: 🏃 Run test suite
         working-directory: build
