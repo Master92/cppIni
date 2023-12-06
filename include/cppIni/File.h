@@ -60,6 +60,12 @@ private:
     std::vector<Section*> m_sections{};
 };
 
+/// \details Calls findEntry() and returns the value of the Entry if it exists.
+/// Otherwise, returns a default-constructed value.
+/// \arg section The fully qualified title of the Section to search in.
+/// \arg name The name of the Entry to search for.
+/// \tparam T The type of the value to return.
+/// \returns The value of the Entry if it exists, otherwise a default-constructed value.
 template<class T>
 auto File::get(std::string_view section, std::string_view name) const -> T
 {
