@@ -1,5 +1,18 @@
 #  cppIni - A C++20 library for reading and writing INI files
-#  Copyright (C) 2023 Nils Hofmann <nils.friedchen@googlemail.com>
+#  Copyright (C) 2023-2024 Nils Hofmann <nils.friedchen@googlemail.com>
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,7 +34,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class cppiniRecipe(ConanFile):
     name = "cppini"
-    version = "0.1.0"
+    version = "0.2.0"
     package_type = "library"
 
     # Optional metadata

@@ -51,7 +51,7 @@ jobs:
             c_compiler: cl
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: 🔧 Install GCC
         uses: egor-tensin/setup-gcc@v1.3
@@ -66,10 +66,10 @@ jobs:
           version: 16
 
       - name: 🔧 Setup python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: pip
+          python-version: '3.13'
+          cache: 'pip'
 
       - name: ☁️ Install required python packages
         run: pip install -r requirements.txt
