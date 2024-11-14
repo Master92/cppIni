@@ -49,7 +49,7 @@ On every write, the file is completely rewritten.
 #include <cppIni/cppIni.hpp>
 
 File ini("test.ini");
-const auto intValue = init.get<int>("section", "key");
+const auto intValue = ini.get<int>("section", "key");
 const auto newValue = 42;
 ini.set("section", "key", newValue);
 ```
