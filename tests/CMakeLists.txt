@@ -6,6 +6,7 @@ set(TEST_SOURCES
     EntryTest.cpp
     FileTest.cpp
     SectionTest.cpp
+    CInterfaceTest.cpp
 )
 
 add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
@@ -29,5 +30,13 @@ if(NOT DOCTEST_CMAKE)
     message(FATAL_ERROR "Could not find doctest.cmake")
 else()
     include(${DOCTEST_CMAKE})
-    doctest_discover_tests(${PROJECT_NAME}_tests WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../src)
+    set(LIBRARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/../src)
+    # Fix path for MSVC is located in the respective build type subdirectory
+    if(MSVC)
+        set(DOCTEST_CMAKE_DIR "${LIBRARY_DIR}/$<CONFIG>")
+    else()
+        set(DOCTEST_CMAKE_DIR "${LIBRARY_DIR}")
+    endif()
+
+    doctest_discover_tests(${PROJECT_NAME}_tests WORKING_DIRECTORY ${DOCTEST_CMAKE_DIR})
 endif()

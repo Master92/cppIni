@@ -30,6 +30,7 @@ TEST_CASE("Entry construction")
 
     Entry meaningful("Blubb", 42);
     CHECK_EQ(meaningful.key(), "Blubb");
+    CHECK_EQ(meaningful.key(), meaningful.fqKey());
     CHECK_EQ(meaningful.value<int>(), 42);
 
     const int a = 69;

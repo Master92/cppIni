@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.24)
 set(CMAKE_DEBUG_POSTFIX d)
 
 set(SOURCES
+    CInterface.cpp
     Entry.cpp
     File.cpp
     Section.cpp
@@ -10,6 +11,7 @@ set(SOURCES
 
 set(API_HEADERS
     cppIni.h
+    cppIni_c.h
     Entry.h
     File.h
     Section.h
@@ -21,6 +23,7 @@ set(PRIVATE_HEADERS
 )
 
 add_library(${PROJECT_NAME} ${SOURCES} ${API_HEADERS} ${PRIVATE_HEADERS})
+target_link_libraries(${PROJECT_NAME} PUBLIC coverage_config)
 
 include(GenerateExportHeader)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
@@ -34,4 +37,25 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
+## Install targets
+include(GNUInstallDirs)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+
+install(EXPORT ${PROJECT_NAME}-targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${INSTALL_CONFIGDIR}
+)
+
+install(FILES ${API_HEADERS} ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/${PROJECT_NAME_LOWER}_export.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+)
+
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}-targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

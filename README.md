@@ -1,7 +1,11 @@
 # cppIni - A C++20 library for reading and writing INI files
 
+Branch | Status                                                                                                                                                                | Coverage
+--- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------| ---
+`master` | [![Build](https://github.com/Master92/cppIni/actions/workflows/build.yaml/badge.svg?branch=master)](https://github.com/Master92/cppIni/actions/workflows/build.yaml)  | [![codecov](https://codecov.io/gh/Master92/cppIni/branch/master/graph/badge.svg?token=V66BUECAMV)](https://codecov.io/gh/Master92/cppIni)
+`develop` | [![Build](https://github.com/Master92/cppIni/actions/workflows/build.yaml/badge.svg?branch=develop)](https://github.com/Master92/cppIni/actions/workflows/build.yaml) | [![codecov](https://codecov.io/gh/Master92/cppIni/branch/develop/graph/badge.svg?token=V66BUECAMV)](https://codecov.io/gh/Master92/cppIni/tree/develop)
+
 [![Release](https://img.shields.io/github/v/tag/Master92/cppIni?label=release)](https://github.com/Master92/cppIni/releases)
-[![Build](https://img.shields.io/github/actions/workflow/status/Master92/cppIni/build.yaml?logo=github)](https://github.com/Master92/cppIni/actions/workflows/build.yaml)
 ![License](https://img.shields.io/github/license/Master92/cppIni)
 ![GitHub stars](https://img.shields.io/github/stars/Master92/cppIni?label=%E2%AD%90%20Stars)
 
