@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <array>
+#include <filesystem>
 #include <format>
 
 #include <cppIni/cppIni_c.h>
@@ -58,6 +59,25 @@ TEST_CASE("Try to read a non-existing entry")
     std::array<char, 64> buffer{0};
     CHECK_EQ(cppIni_gets(file, "Section1", "NonExistingEntry", buffer.data(), buffer.size()), buffer.data());
     CHECK_EQ(buffer[0], '\0');
+}
+
+TEST_CASE("Change a value")
+{
+    constexpr auto tempFileName = "tmp.ini";
+    std::filesystem::copy_file(fileName, tempFileName);
+
+    {
+        constexpr auto newValue = 1337;
+        void* file = cppIni_open(tempFileName);
+        ScopeGuard guard{file};
+
+        const auto previousValue = cppIni_geti(file, "Section1", "IntEntry");
+        CHECK_NE(previousValue, newValue);
+        cppIni_set(file, "Section1", "IntEntry", std::to_string(newValue).c_str());
+        CHECK_EQ(cppIni_geti(file, "Section1", "IntEntry"), newValue);
+    }
+
+    std::filesystem::remove(tempFileName);
 }
 
 TEST_CASE("Read an integer entry")
