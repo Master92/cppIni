@@ -7,6 +7,7 @@ set(TEST_SOURCES
     FileTest.cpp
     SectionTest.cpp
     CInterfaceTest.cpp
+    utils.h
 )
 
 add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
