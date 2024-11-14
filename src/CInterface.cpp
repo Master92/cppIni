@@ -24,14 +24,14 @@
 ///
 /// \param[in] filename The name of the file to open
 /// \return A pointer to a File object
-pFile cppIni_open(const char* filename)
+void* cppIni_open(const char* filename)
 {
     return new File(filename);
 }
 
 /// Closes a file that was opened with cppIni_open().
 /// \param[in] file A pointer to a File object
-void cppIni_close(pFile* file)
+void cppIni_close(void** const file)
 {
     delete static_cast<File*>(*file);
 }
@@ -40,7 +40,7 @@ void cppIni_close(pFile* file)
 /// \param[in] section The name of the section to add
 /// \param[in] key The name of the key to add
 /// \param[in] value The value to add
-void cppIni_set(pFile file, const char* section, const char* key, const char* value)
+void cppIni_set(void* const file, const char* const section, const char* const key, const char* value)
 {
     static_cast<File*>(file)->set(section, key, value);
 }
@@ -51,9 +51,9 @@ void cppIni_set(pFile file, const char* section, const char* key, const char* va
 /// \param[out] out A buffer to store the value in
 /// \param[in] outSize The size of the buffer
 /// \return A pointer to the buffer
-const char* cppIni_gets(pFile file, const char* section, const char* key, char* out, size_t outSize)
+const char* cppIni_gets(const void* const file, const char* const section, const char* const key, char* out, size_t outSize)
 {
-    const auto value = static_cast<File*>(file)->get<std::string>(section, key);
+    const auto value = static_cast<const File*>(file)->get<std::string>(section, key);
 
     if (value.empty()) {
         return out;
@@ -68,9 +68,9 @@ const char* cppIni_gets(pFile file, const char* section, const char* key, char* 
 /// \param[in] section The name of the section to get
 /// \param[in] key The name of the key to get
 /// \return The value of the key
-int cppIni_geti(pFile file, const char* section, const char* key)
+int cppIni_geti(const void* const file, const char* const section, const char* const key)
 {
-    return static_cast<File*>(file)->get<int>(section, key);
+    return static_cast<const File*>(file)->get<int>(section, key);
 }
 
 /// \see cppIni_gets
@@ -78,7 +78,7 @@ int cppIni_geti(pFile file, const char* section, const char* key)
 /// \param[in] section The name of the section to get
 /// \param[in] key The name of the key to get
 /// \return The value of the key
-float cppIni_getf(pFile file, const char* section, const char* key)
+float cppIni_getf(const void* const file, const char* const section, const char* const key)
 {
-    return static_cast<File*>(file)->get<float>(section, key);
+    return static_cast<const File*>(file)->get<float>(section, key);
 }
