@@ -45,15 +45,29 @@ On every write, the file is completely rewritten.
 
 ## Usage
 
+### C++:
+
 ``` cpp  
 #include <cppIni/cppIni.hpp>
 
 File ini("test.ini");
-const auto intValue = init.get<int>("section", "key");
+const auto intValue = ini.get<int>("section", "key");
 const auto newValue = 42;
 ini.set("section", "key", newValue);
 ```
 
+### C:
+
+``` c
+#include <cppIni/cppIni_c.h>
+
+void* ini = cppIni_open("test.ini");
+const int intValue = cppIni_geti(ini, "section", "key");
+const int newValue = 42;
+cppIni_set(ini, "section", "key", newValue);
+cppIni_close(&ini);
+```
+
 ## License
 
-cppIni is licensed under the MIT license. See [COPYING](https://github.com/Master92/cppIni/COPYING) for more information.
+cppIni is licensed under the GPLv3. See [COPYING](https://github.com/Master92/cppIni/blob/master/COPYING) for more information.
