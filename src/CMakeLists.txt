@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.24)
 set(CMAKE_DEBUG_POSTFIX d)
 
 set(SOURCES
+    CInterface.cpp
     Entry.cpp
     File.cpp
     Section.cpp
@@ -10,6 +11,7 @@ set(SOURCES
 
 set(API_HEADERS
     cppIni.h
+    cppIni_c.h
     Entry.h
     File.h
     Section.h
