@@ -50,6 +50,16 @@ TEST_CASE("Read a string entry")
     CHECK_EQ(std::string_view{buffer.data()}, "Value1");
 }
 
+TEST_CASE("Try to read a non-existing entry")
+{
+    void* file = cppIni_open(fileName.c_str());
+    ScopeGuard guard{file};
+
+    std::array<char, 64> buffer{0};
+    CHECK_EQ(cppIni_gets(file, "Section1", "NonExistingEntry", buffer.data(), buffer.size()), buffer.data());
+    CHECK_EQ(buffer[0], '\0');
+}
+
 TEST_CASE("Read an integer entry")
 {
     void* file = cppIni_open(fileName.c_str());
