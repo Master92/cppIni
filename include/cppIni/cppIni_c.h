@@ -23,7 +23,6 @@
 extern "C" {
 #endif
 
-typedef void* pFile;
 /// \file cppIni_c.h
 /// \brief The C API for cppIni
 ///
@@ -32,12 +31,14 @@ typedef void* pFile;
 /// the C++ API. It is intended for use with languages that do not support
 /// C++.
 
-CPPINI_EXPORT pFile cppIni_open(const char* filename); ///< Opens a file
-CPPINI_EXPORT void cppIni_close(pFile* file); ///< Closes a file
-CPPINI_EXPORT void cppIni_set(pFile file, const char* section, const char* key, const char* value); ///< Sets a value
-CPPINI_EXPORT const char* cppIni_gets(pFile file, const char* section, const char* key, char* out, size_t outSize); ///< Gets a string
-CPPINI_EXPORT int cppIni_geti(pFile file, const char* section, const char* key); ///< Gets an integer
-CPPINI_EXPORT float cppIni_getf(pFile file, const char* section, const char* key); ///< Gets a float
+CPPINI_EXPORT void* cppIni_open(const char* filename); ///< Opens a file
+CPPINI_EXPORT void cppIni_close(void** file); ///< Closes a file
+
+CPPINI_EXPORT void cppIni_set(void* file, const char* section, const char* key, const char* value); ///< Sets a value
+
+CPPINI_EXPORT const char* cppIni_gets(const void* file, const char* section, const char* key, char* out, size_t outSize); ///< Gets a string
+CPPINI_EXPORT int cppIni_geti(const void* file, const char* section, const char* key); ///< Gets an integer
+CPPINI_EXPORT float cppIni_getf(const void* file, const char* section, const char* key); ///< Gets a float
 
 #ifdef __cplusplus
 }
