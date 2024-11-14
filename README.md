@@ -56,4 +56,4 @@ ini.set("section", "key", newValue);
 
 ## License
 
-cppIni is licensed under the MIT license. See [COPYING](https://github.com/Master92/cppIni/COPYING) for more information.
+cppIni is licensed under the GPLv3. See [COPYING](https://github.com/Master92/cppIni/COPYING) for more information.
