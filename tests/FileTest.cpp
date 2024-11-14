@@ -1,6 +1,6 @@
 /*
  * cppIni - A C++20 library for reading and writing INI files
- * Copyright (C) 2023 Nils Hofmann <nils.friedchen@googlemail.com>
+ * Copyright (C) 2023-2024 Nils Hofmann <nils.friedchen@googlemail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,25 +21,13 @@
 #include <doctest/doctest.h>
 
 #include <cppIni/File.h>
+#include "utils.h"
 
 using namespace std::literals;
 
 static const std::string fileName = std::format("{}{}", WORKING_DIR, "/res/test.ini");
 
 TEST_SUITE_BEGIN("File");
-
-class FileFixture
-{
-public:
-    FileFixture() {
-        std::filesystem::copy_file(::fileName, fileName);
-    }
-    ~FileFixture() {
-        std::filesystem::remove(fileName);
-    }
-protected:
-    const std::string fileName = std::format("{}{}", WORKING_DIR, "/res/tmp.ini");
-};
 
 TEST_CASE("Failing construction of an empty File object")
 {
@@ -145,15 +133,16 @@ TEST_CASE("Equality operator")
     CHECK_EQ(f, f2);
 }
 
-TEST_CASE_FIXTURE(FileFixture, "Change a value with set")
+TEST_CASE("Change a value with set")
 {
     constexpr auto newValue = "NewValue"sv;
 
-    auto f = File{fileName};
+    utils::TempFile tmpFile(fileName);
+    auto f = File{tmpFile.filename()};
     f.set("Section1", "Entry1", "NewValue");
     CHECK_EQ(f.get<std::string_view>("Section1", "Entry1"), newValue);
 
-    const auto f2 = File{fileName};
+    const auto f2 = File{tmpFile.filename()};
     CHECK_EQ(f.get<std::string_view>("Section1", "Entry1"), newValue);
 }
 

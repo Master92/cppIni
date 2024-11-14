@@ -57,20 +57,15 @@ TEST_CASE("Try to read a non-existing entry")
 
 TEST_CASE("Change a value")
 {
-    constexpr auto tempFileName = "tmp.ini";
-    std::filesystem::copy_file(fileName, tempFileName);
+    constexpr auto newValue = 1337;
 
-    {
-        constexpr auto newValue = 1337;
-        auto file = utils::ScopeGuard<void*, cppIni_close>(cppIni_open(tempFileName));
+    utils::TempFile tmpFile(fileName);
+    auto file = utils::ScopeGuard<void*, cppIni_close>(cppIni_open(tmpFile.filename().data()));
 
-        const auto previousValue = cppIni_geti(*file, "Section1", "IntEntry");
-        CHECK_NE(previousValue, newValue);
-        cppIni_set(*file, "Section1", "IntEntry", std::to_string(newValue).c_str());
-        CHECK_EQ(cppIni_geti(*file, "Section1", "IntEntry"), newValue);
-    }
-
-    std::filesystem::remove(tempFileName);
+    const auto previousValue = cppIni_geti(*file, "Section1", "IntEntry");
+    CHECK_NE(previousValue, newValue);
+    cppIni_set(*file, "Section1", "IntEntry", std::to_string(newValue).c_str());
+    CHECK_EQ(cppIni_geti(*file, "Section1", "IntEntry"), newValue);
 }
 
 TEST_CASE("Read an integer entry")
